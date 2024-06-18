@@ -1,0 +1,29 @@
+<h1><span class="caa">CAA</span><span class="mar">MAR</span></h1>
+
+<!-- Div para o formulário de login de aluno -->
+<div class="login-box">
+  <%= form_with(url: new_aluno_session_path, method: :post) do |form| %>
+    <%= form.label :email %>
+    <%= form.email_field :email %>
+
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+
+    <%= form.submit 'Entrar como Aluno' %>
+  <% end %>
+</div>
+
+<!-- Div para o formulário de login de professor -->
+<div class="login-box">
+  <%= form_with(url: new_professor_session_path, method: :post) do |form| %>
+    <%= form.label :email %>
+    <%= form.email_field :email %>
+
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+
+    <%= form.submit 'Entrar como Professor' %>
+  <% end %>
+</div>
+
+<p>Encontre-me em app/views/home/index.html.erb</p>
