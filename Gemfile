@@ -78,4 +78,6 @@ group :test do
   gem 'faker'
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
+  
+  gem 'simplecov', require: false
 end
