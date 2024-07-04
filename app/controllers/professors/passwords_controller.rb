@@ -1,28 +1,29 @@
 # frozen_string_literal: true
 
 class Professors::PasswordsController < Devise::PasswordsController
-  # GET /resource/password/new
+  # GET /professors/password/new
   # def new
   #   super
   # end
 
-  # POST /resource/password
+  # POST /professors/password
   # def create
   #   super
   # end
 
-  # GET /resource/password/edit?reset_password_token=abcdef
+  # GET /professors/password/edit?reset_password_token=abcdef
   # def edit
   #   super
   # end
 
-  # PUT /resource/password
+  # PUT /professors/password
   # def update
   #   super
   # end
 
   # protected
 
+  # The path used after resetting password
   # def after_resetting_password_path_for(resource)
   #   super(resource)
   # end

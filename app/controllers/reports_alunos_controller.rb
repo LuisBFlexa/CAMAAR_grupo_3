@@ -1,16 +1,25 @@
+# Controller responsável por gerenciar os relatórios dos alunos na aplicação.
 class ReportsAlunosController < ApplicationController
-  before_action :set_reports_aluno, only: %i[ show edit update destroy ]
+  before_action :set_reports_aluno, only: %i[show edit update destroy]
   skip_before_action :verify_authenticity_token, only: [:submit_form]
 
   # GET /reports_alunos or /reports_alunos.json
   def index
+    # Obtém todos os relatórios de alunos existentes.
     @reports_alunos = ReportsAluno.all
+    # Obtém os nomes dos arquivos JSON no diretório de formulários públicos.
     @formularios = Dir.glob(Rails.root.join('public', 'formularios', '*.json')).map do |file_path|
       File.basename(file_path)
     end
   end
 
   # GET /fetch_form
+  # Recupera o conteúdo de um formulário JSON específico.
+  #
+  # Parameters:
+  #   - params[:file_name]: Nome do arquivo JSON a ser recuperado.
+  #
+  # Returns JSON content of the requested form or error message if not found.
   def fetch_form
     file_path = Rails.root.join('public', 'formularios', params[:file_name])
     if File.exist?(file_path)
@@ -21,6 +30,16 @@ class ReportsAlunosController < ApplicationController
   end
 
   # POST /submit_form
+  # Submete um formulário preenchido como um arquivo JSON.
+  #
+  # Request body JSON parameters:
+  #   - fileName: Nome do arquivo a ser salvo.
+  #   - data: Dados preenchidos do formulário.
+  #   - formName: Nome do formulário.
+  #   - professor: Nome do professor associado ao formulário.
+  #   - semester: Semestre associado ao formulário.
+  #
+  # Returns JSON indicating success or failure of the submission.
   def submit_form
     json_data = JSON.parse(request.body.read)
     file_name = json_data['fileName']
@@ -33,7 +52,7 @@ class ReportsAlunosController < ApplicationController
     Dir.mkdir(directory) unless Dir.exist?(directory)
 
     file_path = directory.join(file_name)
-    
+
     Rails.logger.info "Saving file to: #{file_path}"
 
     begin
@@ -48,19 +67,23 @@ class ReportsAlunosController < ApplicationController
   end
 
   # GET /reports_alunos/1 or /reports_alunos/1.json
+  # Mostra detalhes de um relatório de aluno específico.
   def show
   end
 
   # GET /reports_alunos/new
+  # Inicializa um novo relatório de aluno.
   def new
     @reports_aluno = ReportsAluno.new
   end
 
   # GET /reports_alunos/1/edit
+  # Permite editar um relatório de aluno existente.
   def edit
   end
 
   # POST /reports_alunos or /reports_alunos.json
+  # Cria um novo relatório de aluno com os parâmetros permitidos.
   def create
     @reports_aluno = ReportsAluno.new(reports_aluno_params)
 
@@ -76,6 +99,7 @@ class ReportsAlunosController < ApplicationController
   end
 
   # PATCH/PUT /reports_alunos/1 or /reports_alunos/1.json
+  # Atualiza um relatório de aluno existente com os parâmetros permitidos.
   def update
     respond_to do |format|
       if @reports_aluno.update(reports_aluno_params)
@@ -89,6 +113,7 @@ class ReportsAlunosController < ApplicationController
   end
 
   # DELETE /reports_alunos/1 or /reports_alunos/1.json
+  # Deleta um relatório de aluno existente.
   def destroy
     @reports_aluno.destroy!
 
