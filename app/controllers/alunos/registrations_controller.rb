@@ -1,61 +1,66 @@
 # frozen_string_literal: true
 
+# Controlador para lidar com ações de registro de alunos usando Devise.
 class Alunos::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
-  # GET /resource/sign_up
+  # GET /alunos/sign_up
+  # Método padrão não sobrescrito.
   # def new
   #   super
   # end
 
-  # POST /resource
+  # POST /alunos
+  # Método padrão não sobrescrito.
   # def create
   #   super
   # end
 
-  # GET /resource/edit
+  # GET /alunos/edit
+  # Método padrão não sobrescrito.
   # def edit
   #   super
   # end
 
-  # PUT /resource
+  # PUT /alunos
+  # Método padrão não sobrescrito.
   # def update
   #   super
   # end
 
-  # DELETE /resource
+  # DELETE /alunos
+  # Método padrão não sobrescrito.
   # def destroy
   #   super
   # end
 
-  # GET /resource/cancel
-  # Forces the session data which is usually expired after sign
-  # in to be expired now. This is useful if the user wants to
-  # cancel oauth signing in/up in the middle of the process,
-  # removing all OAuth session data.
+  # GET /alunos/cancel
+  # Força a expiração dos dados de sessão que geralmente expiram após o login para
+  # expirar agora. Útil se o usuário deseja cancelar o login/up via OAuth no meio do processo,
+  # removendo todos os dados de sessão do OAuth.
   # def cancel
   #   super
   # end
 
   # protected
 
-  # If you have extra params to permit, append them to the sanitizer.
+  # Se houver parâmetros extras para permitir, adicione-os ao sanitizador.
   # def configure_sign_up_params
   #   devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
   # end
 
-  # If you have extra params to permit, append them to the sanitizer.
+  # Se houver parâmetros extras para permitir, adicione-os ao sanitizador.
   # def configure_account_update_params
   #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
   # end
 
-  # The path used after sign up.
+  # O caminho usado após o registro.
   # def after_sign_up_path_for(resource)
   #   super(resource)
   # end
 
-  # The path used after sign up for inactive accounts.
+  # O caminho usado após o registro para contas inativas.
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end

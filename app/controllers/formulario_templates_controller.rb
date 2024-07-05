@@ -1,38 +1,53 @@
+# Controller responsável por gerenciar os templates de formulários na aplicação.
 class FormularioTemplatesController < ApplicationController
   before_action :set_formulario_template, only: %i[show edit update destroy]
   before_action :set_no_cache, only: %i[edit_template view_file delete_file]
 
-  # GET /formulario_templates or /formulario_templates.json
+  # GET /formulario_templates ou /formulario_templates.json
   def index
+    # Obtém todos os templates de formulários existentes.
     @formulario_templates = FormularioTemplate.all
   end
 
-  # GET /formulario_templates/1 or /formulario_templates/1.json
-  def show; end
+  # GET /formulario_templates/1 ou /formulario_templates/1.json
+  def show
+    # Ação que mostra detalhes de um template de formulário específico.
+  end
 
   # GET /formulario_templates/new
   def new
+    # Inicializa um novo objeto template de formulário.
     @formulario_template = FormularioTemplate.new
   end
 
   # GET /formulario_templates/1/edit
-  def edit; end
+  def edit
+    # Ação que permite editar um template de formulário existente.
+  end
 
   # GET /formulario_templates/edit_no_params
   def edit_template
+    # Diretório onde os templates estão armazenados
     templates_dir = Rails.root.join('public', 'templates')
-    @files = FileService.list_files(templates_dir, '*.json')
+    
+    # Seleciona arquivos JSON no diretório de templates
+    @files = Dir.children(templates_dir).select { |file| file.end_with?('.json') }
+
+    # Obtém o primeiro template de formulário (exemplo)
     @formulario_template = FormularioTemplate.first
     render :edit
   end
 
   # GET /view_file
   def view_file
-    file_path = Rails.root.join('public', 'templates', params[:file_name])
-    file_content = FileService.read_file(file_path)
+    # Obtém o nome do arquivo a ser visualizado
+    file_name = params[:file_name]
+    file_path = Rails.root.join('public', 'templates', file_name)
 
-    if file_content
-      render json: { status: 'success', content: file_content }
+    # Verifica se o arquivo existe e retorna seu conteúdo em formato JSON
+    if File.exist?(file_path)
+      content = File.read(file_path)
+      render json: { status: 'success', content: content }
     else
       render json: { status: 'error', message: 'File not found' }, status: 404
     end
@@ -40,27 +55,33 @@ class FormularioTemplatesController < ApplicationController
 
   # DELETE /delete_file
   def delete_file
-    file_path = Rails.root.join('public', 'templates', params[:file_name])
+    # Obtém o nome do arquivo a ser deletado
+    file_name = params[:file_name]
+    file_path = Rails.root.join('public', 'templates', file_name)
 
-    if FileService.delete_file(file_path)
+    # Verifica se o arquivo existe e deleta-o
+    if File.exist?(file_path)
+      File.delete(file_path)
       render json: { status: 'success', message: 'File deleted successfully' }
     else
       render json: { status: 'error', message: 'File not found' }, status: 404
     end
   end
 
-  # POST /formulario_templates or /formulario_templates.json
+  # POST /formulario_templates ou /formulario_templates.json
   def create
+    # Cria um novo template de formulário com os parâmetros recebidos
     @formulario_template = FormularioTemplate.new(formulario_template_params)
+
     handle_response(@formulario_template.save, :new, "Formulario template was successfully created.")
   end
 
-  # PATCH/PUT /formulario_templates/1 or /formulario_templates/1.json
+  # PATCH/PUT /formulario_templates/1 ou /formulario_templates/1.json
   def update
     handle_response(@formulario_template.update(formulario_template_params), :edit, "Formulario template was successfully updated.")
   end
 
-  # DELETE /formulario_templates/1 or /formulario_templates/1.json
+  # DELETE /formulario_templates/1 ou /formulario_templates/1.json
   def destroy
     @formulario_template.destroy
     handle_response(true, :index, "Formulario template was successfully destroyed.")

@@ -1,29 +1,33 @@
 # frozen_string_literal: true
 
+# Controlador para gerenciar o desbloqueio de contas de alunos usando Devise.
 class Alunos::UnlocksController < Devise::UnlocksController
-  # GET /resource/unlock/new
+  # GET /alunos/unlock/new
+  # Método padrão não sobrescrito.
   # def new
   #   super
   # end
 
-  # POST /resource/unlock
+  # POST /alunos/unlock
+  # Método padrão não sobrescrito.
   # def create
   #   super
   # end
 
-  # GET /resource/unlock?unlock_token=abcdef
+  # GET /alunos/unlock?unlock_token=abcdef
+  # Método padrão não sobrescrito.
   # def show
   #   super
   # end
 
   # protected
 
-  # The path used after sending unlock password instructions
+  # O caminho usado após enviar instruções de desbloqueio de senha.
   # def after_sending_unlock_instructions_path_for(resource)
   #   super(resource)
   # end
 
-  # The path used after unlocking the resource
+  # O caminho usado após desbloquear o recurso.
   # def after_unlock_path_for(resource)
   #   super(resource)
   # end
