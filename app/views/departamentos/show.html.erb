@@ -4,7 +4,7 @@
   <p>
     <strong>Professores:</strong>
     <ul>
-      <% @departamento.professor.each do |prof| %>
+      <% @departamento.professors.each do |prof| %>
         <li><%= prof.nome %></li>
       <% end %>
     </ul>
@@ -13,7 +13,7 @@
   <p>
     <strong>Matérias:</strong>
     <ul>
-      <% @departamento.materium.each do |materia| %>
+      <% @departamento.materias.each do |materia| %>
         <li><%= materia.nome %></li>
       <% end %>
     </ul>

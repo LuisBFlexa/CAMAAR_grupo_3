@@ -5,7 +5,7 @@ class Departamento < ApplicationRecord
   validates :nome, uniqueness: true, presence: true
 
   # Define a associação um-para-muitos com professores.
-  has_many :professores
+  has_many :professors
 
   # Define a associação um-para-muitos com matérias.
   has_many :materias
