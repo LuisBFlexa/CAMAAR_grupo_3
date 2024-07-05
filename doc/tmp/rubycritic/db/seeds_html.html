@@ -391,7 +391,7 @@
         &lt;/div&gt;
         &lt;div class=&quot;code-statistics col-md-11&quot;&gt;
           &lt;div class=&quot;col-md-3&quot;&gt;
-            &lt;div&gt;&lt;span class=&quot;metric&quot;&gt;85&lt;/span&gt;&lt;small&gt; lines of codes&lt;/small&gt;&lt;/div&gt;
+            &lt;div&gt;&lt;span class=&quot;metric&quot;&gt;88&lt;/span&gt;&lt;small&gt; lines of codes&lt;/small&gt;&lt;/div&gt;
             &lt;div&gt;&lt;span class=&quot;metric&quot;&gt;0&lt;/span&gt;&lt;small&gt; methods&lt;/small&gt;&lt;/div&gt;
           &lt;/div&gt;
           &lt;div class=&quot;col-md-3&quot;&gt;
@@ -428,29 +428,34 @@
 
 <p>begin</p>
 
-<pre>file = File.read(&amp;#39;class_members.json&amp;#39;)
-data_hash = JSON.parse(file)
-print(data_hash)</pre>
+<pre># Lê o conteúdo do arquivo JSON
+file = File.read(&amp;#39;class_members.json&amp;#39;)
+data_hash = JSON.parse(file)</pre>
 
 <p>rescue =&amp;gt; e</p>
 
-<pre>logger.error(&amp;quot;Erro ao ler ou parsear o arquivo JSON: #{e.message}&amp;quot;)
+<pre># Registra um erro se houver problemas ao ler ou parsear o arquivo JSON
+logger.error(&amp;quot;Erro ao ler ou parsear o arquivo JSON: #{e.message}&amp;quot;)
 exit</pre>
 
 <p>end</p>
 
-<p>data_hash.each do |class_info|</p>
+<p># Itera sobre cada entrada de informações de classes no arquivo JSON data_hash.each do |class_info|</p>
 
-<pre>class_info[&amp;quot;discente&amp;quot;].each do |aluno|
+<pre># Processa os discentes (alunos) da classe
+class_info[&amp;quot;discente&amp;quot;].each do |aluno|
   begin
+    # Verifica se o aluno já existe pelo email
     existing_aluno = Aluno.find_by(email: aluno[&amp;quot;email&amp;quot;])
     if existing_aluno
       logger.info(&amp;quot;Aluno já existe: #{aluno[&amp;quot;email&amp;quot;]}&amp;quot;)
       next
     end
 
-    password = Array.new(8) { [*&amp;#39;0&amp;#39;..&amp;#39;9&amp;#39;, *&amp;#39;a&amp;#39;..&amp;#39;z&amp;#39;, *&amp;#39;A&amp;#39;..&amp;#39;Z&amp;#39;].sample }.join&lt;ol class=&quot;nocode errors smells&quot;&gt;  &lt;li&gt;    &lt;div class=&quot;description&quot;&gt;      &lt;div class=&quot;heading&quot;&gt;        &lt;span&gt;          &lt;i class=&quot;fa fa-warning&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;          &lt;a href=&quot;http://docs.seattlerb.org/flay/&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;DuplicateCode&lt;/b&gt;&lt;/a&gt;        &lt;/span&gt;      &lt;/div&gt;      &lt;span&gt;Identical code found in 2 nodes&lt;/span&gt;              &lt;span&gt;Locations:&lt;/span&gt;                  &lt;a href=&quot;seeds.html#L28&quot; class=&quot;js-smell-location&quot;&gt;0&lt;/a&gt;                  &lt;a href=&quot;seeds.html#L56&quot; class=&quot;js-smell-location&quot;&gt;1&lt;/a&gt;                  &lt;/div&gt;  &lt;/li&gt;&lt;/ol&gt;
+    # Gera uma senha aleatória
+    password = Array.new(8) { [*&amp;#39;0&amp;#39;..&amp;#39;9&amp;#39;, *&amp;#39;a&amp;#39;..&amp;#39;z&amp;#39;, *&amp;#39;A&amp;#39;..&amp;#39;Z&amp;#39;].sample }.join&lt;ol class=&quot;nocode errors smells&quot;&gt;  &lt;li&gt;    &lt;div class=&quot;description&quot;&gt;      &lt;div class=&quot;heading&quot;&gt;        &lt;span&gt;          &lt;i class=&quot;fa fa-warning&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;          &lt;a href=&quot;http://docs.seattlerb.org/flay/&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;DuplicateCode&lt;/b&gt;&lt;/a&gt;        &lt;/span&gt;      &lt;/div&gt;      &lt;span&gt;Identical code found in 2 nodes&lt;/span&gt;              &lt;span&gt;Locations:&lt;/span&gt;                  &lt;a href=&quot;seeds.html#L29&quot; class=&quot;js-smell-location&quot;&gt;0&lt;/a&gt;                  &lt;a href=&quot;seeds.html#L59&quot; class=&quot;js-smell-location&quot;&gt;1&lt;/a&gt;                  &lt;/div&gt;  &lt;/li&gt;&lt;/ol&gt;
 
+    # Cria o aluno no banco de dados
     Aluno.create!(
       nome: aluno[&amp;quot;nome&amp;quot;],
       curso: aluno[&amp;quot;curso&amp;quot;],
@@ -462,41 +467,48 @@ exit</pre>
     logger.info(&amp;quot;Aluno criado: #{aluno[&amp;quot;email&amp;quot;]}&amp;quot;)
 
   rescue =&amp;gt; e
+    # Registra um erro se houver problemas ao criar o aluno
     logger.error(&amp;quot;Erro ao criar aluno #{aluno[&amp;quot;email&amp;quot;]}: #{e.message}&amp;quot;)
   end
 end
 
+# Processa os docentes (professores) da classe
 class_info[&amp;quot;docente&amp;quot;].each do |professor|
   begin
+    # Verifica se o professor já existe pelo email
     existing_professor = Professor.find_by(email: professor[&amp;quot;email&amp;quot;])
     if existing_professor
       logger.info(&amp;quot;Professor já existe: #{professor[&amp;quot;email&amp;quot;]}&amp;quot;)
       next
     end
 
-    password = Array.new(8) { [*&amp;#39;0&amp;#39;..&amp;#39;9&amp;#39;, *&amp;#39;a&amp;#39;..&amp;#39;z&amp;#39;, *&amp;#39;A&amp;#39;..&amp;#39;Z&amp;#39;].sample }.join&lt;ol class=&quot;nocode errors smells&quot;&gt;  &lt;li&gt;    &lt;div class=&quot;description&quot;&gt;      &lt;div class=&quot;heading&quot;&gt;        &lt;span&gt;          &lt;i class=&quot;fa fa-warning&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;          &lt;a href=&quot;http://docs.seattlerb.org/flay/&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;DuplicateCode&lt;/b&gt;&lt;/a&gt;        &lt;/span&gt;      &lt;/div&gt;      &lt;span&gt;Identical code found in 2 nodes&lt;/span&gt;              &lt;span&gt;Locations:&lt;/span&gt;                  &lt;a href=&quot;seeds.html#L28&quot; class=&quot;js-smell-location&quot;&gt;0&lt;/a&gt;                  &lt;a href=&quot;seeds.html#L56&quot; class=&quot;js-smell-location&quot;&gt;1&lt;/a&gt;                  &lt;/div&gt;  &lt;/li&gt;&lt;/ol&gt;
+    # Gera uma senha aleatória
+    password = Array.new(8) { [*&amp;#39;0&amp;#39;..&amp;#39;9&amp;#39;, *&amp;#39;a&amp;#39;..&amp;#39;z&amp;#39;, *&amp;#39;A&amp;#39;..&amp;#39;Z&amp;#39;].sample }.join&lt;ol class=&quot;nocode errors smells&quot;&gt;  &lt;li&gt;    &lt;div class=&quot;description&quot;&gt;      &lt;div class=&quot;heading&quot;&gt;        &lt;span&gt;          &lt;i class=&quot;fa fa-warning&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;          &lt;a href=&quot;http://docs.seattlerb.org/flay/&quot; target=&quot;_blank&quot;&gt;&lt;b&gt;DuplicateCode&lt;/b&gt;&lt;/a&gt;        &lt;/span&gt;      &lt;/div&gt;      &lt;span&gt;Identical code found in 2 nodes&lt;/span&gt;              &lt;span&gt;Locations:&lt;/span&gt;                  &lt;a href=&quot;seeds.html#L29&quot; class=&quot;js-smell-location&quot;&gt;0&lt;/a&gt;                  &lt;a href=&quot;seeds.html#L59&quot; class=&quot;js-smell-location&quot;&gt;1&lt;/a&gt;                  &lt;/div&gt;  &lt;/li&gt;&lt;/ol&gt;
 
+    # Obtém ou cria o departamento do professor
     departamento_nome = professor[&amp;quot;departamento&amp;quot;]
     if departamento_nome.nil? || departamento_nome.strip.empty?
       logger.error(&amp;quot;Professor #{professor[&amp;quot;email&amp;quot;]} não tem departamento especificado.&amp;quot;)
       next
     end
-
     departamento = Departamento.find_or_create_by(nome: departamento_nome)
 
+    # Verifica se o professor é um administrador
     is_admin = professor[&amp;quot;ocupacao&amp;quot;]&amp;amp;.downcase == &amp;quot;coordenador&amp;quot;
 
+    # Cria o professor no banco de dados
     Professor.create!(
       nome: professor[&amp;quot;nome&amp;quot;],
       email: professor[&amp;quot;email&amp;quot;],
       password: password,
       password_confirmation: password,
-      departamento: departamento, 
+      departamento: departamento,
       isadmin: is_admin
     )
     logger.info(&amp;quot;Professor criado: #{professor[&amp;quot;email&amp;quot;]} com isadmin: #{is_admin}&amp;quot;)
 
   rescue =&amp;gt; e
+    # Registra um erro se houver problemas ao criar o professor
     logger.error(&amp;quot;Erro ao criar professor #{professor[&amp;quot;email&amp;quot;]}: #{e.message}&amp;quot;)
   end
 end</pre>

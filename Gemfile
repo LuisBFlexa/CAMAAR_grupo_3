@@ -65,7 +65,7 @@ group :development do
 end
 
 gem 'rdoc'
-
+gem 'yard'
 gem 'devise'
 
 group :test do
