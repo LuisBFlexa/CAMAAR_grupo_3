@@ -80,10 +80,6 @@ group :test do
   gem 'faker'
   gem 'shoulda-matchers'
   gem 'rails-controller-testing'
-<<<<<<< HEAD
-  
   gem 'simplecov', require: false
-=======
   gem "rubycritic", require: false
->>>>>>> rubycritic
 end
