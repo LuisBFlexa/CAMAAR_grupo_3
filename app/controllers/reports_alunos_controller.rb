@@ -1,20 +1,19 @@
 class ReportsAlunosController < ApplicationController
-  before_action :set_reports_aluno, only: %i[ show edit update destroy ]
+  before_action :set_reports_aluno, only: %i[show edit update destroy]
   skip_before_action :verify_authenticity_token, only: [:submit_form]
 
   # GET /reports_alunos or /reports_alunos.json
   def index
     @reports_alunos = ReportsAluno.all
-    @formularios = Dir.glob(Rails.root.join('public', 'formularios', '*.json')).map do |file_path|
-      File.basename(file_path)
-    end
+    @formularios = FileService.list_files(Rails.root.join('public', 'formularios'), '*.json')
   end
 
   # GET /fetch_form
   def fetch_form
-    file_path = Rails.root.join('public', 'formularios', params[:file_name])
-    if File.exist?(file_path)
-      render json: JSON.parse(File.read(file_path))
+    form_content = FormSubmissionService.fetch_form(params[:file_name])
+
+    if form_content
+      render json: form_content
     else
       render json: { error: "File not found" }, status: 404
     end
@@ -22,34 +21,17 @@ class ReportsAlunosController < ApplicationController
 
   # POST /submit_form
   def submit_form
-    json_data = JSON.parse(request.body.read)
-    file_name = json_data['fileName']
-    data = json_data['data']
-    form_name = json_data['formName']
-    professor = json_data['professor']
-    semester = json_data['semester']
-
-    directory = Rails.root.join('public', 'respostas', "#{form_name}-#{professor}-#{semester}")
-    Dir.mkdir(directory) unless Dir.exist?(directory)
-
-    file_path = directory.join(file_name)
-    
-    Rails.logger.info "Saving file to: #{file_path}"
-
     begin
-      File.open(file_path, 'w') do |file|
-        file.write(JSON.pretty_generate(data))
-      end
-      render json: { success: true, file_path: file_path.to_s }
+      json_data = JSON.parse(request.body.read)
+      file_path = FormSubmissionService.save_submission(json_data)
+      render json: { success: true, file_path: file_path }
     rescue => e
-      Rails.logger.error "Error: #{e.message}"    # Log para verificar erros
-      render json: { success: false, error: e.message }
+      render json: { success: false, error: e.message }, status: 500
     end
   end
 
   # GET /reports_alunos/1 or /reports_alunos/1.json
-  def show
-  end
+  def show; end
 
   # GET /reports_alunos/new
   def new
@@ -57,55 +39,40 @@ class ReportsAlunosController < ApplicationController
   end
 
   # GET /reports_alunos/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /reports_alunos or /reports_alunos.json
   def create
     @reports_aluno = ReportsAluno.new(reports_aluno_params)
-
-    respond_to do |format|
-      if @reports_aluno.save
-        format.html { redirect_to reports_aluno_url(@reports_aluno), notice: "Reports aluno was successfully created." }
-        format.json { render :show, status: :created, location: @reports_aluno }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @reports_aluno.errors, status: :unprocessable_entity }
-      end
-    end
+    handle_response(@reports_aluno.save, :new, "Reports aluno was successfully created.")
   end
 
   # PATCH/PUT /reports_alunos/1 or /reports_alunos/1.json
   def update
-    respond_to do |format|
-      if @reports_aluno.update(reports_aluno_params)
-        format.html { redirect_to reports_aluno_url(@reports_aluno), notice: "Reports aluno was successfully updated." }
-        format.json { render :show, status: :ok, location: @reports_aluno }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @reports_aluno.errors, status: :unprocessable_entity }
-      end
-    end
+    handle_response(@reports_aluno.update(reports_aluno_params), :edit, "Reports aluno was successfully updated.")
   end
 
   # DELETE /reports_alunos/1 or /reports_alunos/1.json
   def destroy
     @reports_aluno.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to reports_alunos_url, notice: "Reports aluno was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    handle_response(true, :index, "Reports aluno was successfully destroyed.")
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_reports_aluno
-      @reports_aluno = ReportsAluno.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def reports_aluno_params
-      params.require(:reports_aluno).permit(:formulario_id)
+  def set_reports_aluno
+    @reports_aluno = ReportsAluno.find(params[:id])
+  end
+
+  def reports_aluno_params
+    params.require(:reports_aluno).permit(:formulario_id)
+  end
+
+  def handle_response(success, action, success_message)
+    if success
+      redirect_to @reports_aluno, notice: success_message
+    else
+      render action, status: :unprocessable_entity
     end
+  end
 end
