@@ -9,7 +9,6 @@ Rails.application.routes.draw do
 
   get 'home/index'
 
-
   authenticated :aluno do
     root 'alunos#dashboard', as: :authenticated_aluno_root
   end
@@ -19,8 +18,6 @@ Rails.application.routes.draw do
   end
 
   root "home#index"
-
-
 
   get 'get_response_files', to: 'formularios#get_response_files'
   get 'list_json_files', to: 'formularios#list_json_files'

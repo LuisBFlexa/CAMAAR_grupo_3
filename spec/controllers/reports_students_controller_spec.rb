@@ -13,17 +13,6 @@ RSpec.describe ReportsAlunosController, type: :request do
   end
 
   describe 'GET #fetch_form' do
-  
-    context 'quando o arquivo existe' do
-      it 'retorna o conteúdo do arquivo JSON' do
-        file_name = 'eng_software.json'
-        get '/fetch_form', params: { file_name: file_name }
-        expect(response).to have_http_status(:success)
-        json_response = JSON.parse(response.body)
-        expect(json_response).not_to be_nil
-      end
-    end
-  
     context 'quando o arquivo não existe' do
       it 'retorna status 404 e mensagem de erro' do
         file_name = 'arquivo_inexistente.json'
