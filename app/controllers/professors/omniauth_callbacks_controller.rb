@@ -1,29 +1,34 @@
 # frozen_string_literal: true
 
+# Controlador para gerenciar callbacks de autenticação OmniAuth para professores usando Devise.
 class Professors::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  # You should configure your model like this:
+  # Configuração do modelo para permitir OmniAuth com provedores específicos.
+  # Exemplos de configuração:
   # devise :omniauthable, omniauth_providers: [:twitter]
 
-  # You should also create an action method in this controller like this:
+  # Criação de métodos de ação para diferentes provedores de autenticação.
+  # Exemplo:
   # def twitter
   # end
 
-  # More info at:
+  # Mais informações em:
   # https://github.com/heartcombo/devise#omniauth
 
-  # GET|POST /resource/auth/twitter
+  # GET|POST /professors/auth/twitter
+  # Método padrão não sobrescrito.
   # def passthru
   #   super
   # end
 
-  # GET|POST /users/auth/twitter/callback
+  # GET|POST /professors/auth/twitter/callback
+  # Método padrão não sobrescrito.
   # def failure
   #   super
   # end
 
   # protected
 
-  # The path used when OmniAuth fails
+  # O caminho usado quando OmniAuth falha.
   # def after_omniauth_failure_path_for(scope)
   #   super(scope)
   # end

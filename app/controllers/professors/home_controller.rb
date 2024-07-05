@@ -1,4 +1,6 @@
+# Controller responsável pela página inicial da aplicação.
 class HomeController < ApplicationController
-    def index
-    end
-end  
+  # Ação index que renderiza a página inicial.
+  def index
+  end
+end

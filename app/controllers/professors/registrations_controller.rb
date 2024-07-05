@@ -1,61 +1,61 @@
 # frozen_string_literal: true
 
+# Controller personalizado para gerenciar o processo de registro de professores.
 class Professors::RegistrationsController < Devise::RegistrationsController
-  # before_action :configure_sign_up_params, only: [:create]
-  # before_action :configure_account_update_params, only: [:update]
-
-  # GET /resource/sign_up
+  # GET /professors/sign_up
+  # Renderiza o formulário para registrar um novo professor.
   # def new
   #   super
   # end
 
-  # POST /resource
+  # POST /professors
+  # Cria um novo registro de professor com os dados fornecidos.
   # def create
   #   super
   # end
 
-  # GET /resource/edit
+  # GET /professors/edit
+  # Renderiza o formulário para editar o perfil do professor.
   # def edit
   #   super
   # end
 
-  # PUT /resource
+  # PUT /professors
+  # Atualiza os dados do perfil do professor.
   # def update
   #   super
   # end
 
-  # DELETE /resource
+  # DELETE /professors
+  # Remove o registro do professor.
   # def destroy
   #   super
   # end
 
-  # GET /resource/cancel
-  # Forces the session data which is usually expired after sign
-  # in to be expired now. This is useful if the user wants to
-  # cancel oauth signing in/up in the middle of the process,
-  # removing all OAuth session data.
+  # GET /professors/cancel
+  # Cancela a sessão de OAuth durante o processo de registro ou login.
   # def cancel
   #   super
   # end
 
   # protected
 
-  # If you have extra params to permit, append them to the sanitizer.
+  # Permite parâmetros extras durante o registro.
   # def configure_sign_up_params
   #   devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
   # end
 
-  # If you have extra params to permit, append them to the sanitizer.
+  # Permite parâmetros extras durante a atualização da conta.
   # def configure_account_update_params
   #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
   # end
 
-  # The path used after sign up.
+  # Define o caminho utilizado após o registro.
   # def after_sign_up_path_for(resource)
   #   super(resource)
   # end
 
-  # The path used after sign up for inactive accounts.
+  # Define o caminho utilizado após o registro de contas inativas.
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end

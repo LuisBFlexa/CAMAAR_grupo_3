@@ -1,29 +1,33 @@
 # frozen_string_literal: true
 
+# Controlador para lidar com a confirmação de conta de alunos usando Devise.
 class Alunos::ConfirmationsController < Devise::ConfirmationsController
-  # GET /resource/confirmation/new
+  # GET /alunos/confirmation/new
+  # Método padrão não sobrescrito.
   # def new
   #   super
   # end
 
-  # POST /resource/confirmation
+  # POST /alunos/confirmation
+  # Método padrão não sobrescrito.
   # def create
   #   super
   # end
 
-  # GET /resource/confirmation?confirmation_token=abcdef
+  # GET /alunos/confirmation?confirmation_token=abcdef
+  # Método padrão não sobrescrito.
   # def show
   #   super
   # end
 
   # protected
 
-  # The path used after resending confirmation instructions.
+  # O caminho usado após reenviar as instruções de confirmação.
   # def after_resending_confirmation_instructions_path_for(resource_name)
   #   super(resource_name)
   # end
 
-  # The path used after confirmation.
+  # O caminho usado após a confirmação da conta.
   # def after_confirmation_path_for(resource_name, resource)
   #   super(resource_name, resource)
   # end
