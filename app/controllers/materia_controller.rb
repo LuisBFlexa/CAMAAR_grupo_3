@@ -1,5 +1,5 @@
 # Controller responsável pela gestão de disciplinas (materias).
-class MateriasController < ApplicationController
+class MateriaController < ApplicationController
   before_action :set_materia, only: %i[show edit update destroy]
 
   # GET /materias or /materias.json
